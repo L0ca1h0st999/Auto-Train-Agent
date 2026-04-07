@@ -1,0 +1,288 @@
+{
+  "project": "Auto-Train-Agent",
+  "description": "全自动机器学习模型训练 Agent",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "项目基础配置",
+      "description": "配置项目的基础设置和依赖",
+      "steps": [
+        "创建 requirements.txt，包含 PyTorch, numpy, pandas, tqdm, typer, pydantic",
+        "创建 pyproject.toml 配置文件",
+        "配置 ruff 作为 linter 和 formatter",
+        "配置 mypy 进行类型检查",
+        "创建 .gitignore 文件（排除 .venv, __pycache__, .pytest_cache 等）",
+        "创建 src/__init__.py",
+        "创建项目基础目录结构（models, data, training, evaluation, utils, configs）"
+      ],
+      "passes": false
+    },
+    {
+      "id": 2,
+      "title": "配置管理模块",
+      "description": "创建灵活的配置管理系统",
+      "steps": [
+        "创建 src/configs/base.py 定义基础配置类",
+        "使用 dataclasses 或 pydantic 定义配置结构",
+        "支持从 YAML/JSON 文件加载配置",
+        "支持命令行参数覆盖配置",
+        "创建配置验证逻辑",
+        "添加示例配置文件 configs/default.yaml"
+      ],
+      "passes": false
+    },
+    {
+      "id": 3,
+      "title": "日志系统",
+      "description": "实现完善的日志记录系统",
+      "steps": [
+        "创建 src/utils/logger.py",
+        "支持不同日志级别（DEBUG, INFO, WARNING, ERROR）",
+        "支持同时输出到控制台和文件",
+        "训练时记录损失、指标等",
+        "支持 TensorBoard 或 WandB 集成（可选）",
+        "创建日志轮转配置"
+      ],
+      "passes": false
+    },
+    {
+      "id": 4,
+      "title": "数据处理管道",
+      "description": "创建数据加载和预处理模块",
+      "steps": [
+        "创建 src/data/dataset.py 定义基础 Dataset 类",
+        "创建 src/data/loader.py 封装 DataLoader",
+        "支持数据增强（transforms）",
+        "支持缓存预处理后的数据",
+        "添加数据统计和可视化工具",
+        "创建示例数据加载器"
+      ],
+      "passes": false
+    },
+    {
+      "id": 5,
+      "title": "模型架构基础",
+      "description": "创建模型定义和管理的模块",
+      "steps": [
+        "创建 src/models/base.py 定义基础模型接口",
+        "创建 src/models/registry.py 模型注册系统",
+        "支持从配置文件动态加载模型",
+        "添加模型参数统计工具",
+        "添加模型权重保存/加载功能",
+        "创建示例模型（如简单的 MLP 或 CNN）"
+      ],
+      "passes": false
+    },
+    {
+      "id": 6,
+      "title": "训练循环核心",
+      "description": "实现核心训练循环逻辑",
+      "steps": [
+        "创建 src/training/trainer.py 定义 Trainer 类",
+        "实现单 epoch 训练逻辑",
+        "实现验证循环",
+        "支持梯度累积",
+        "支持混合精度训练（AMP）",
+        "添加梯度裁剪"
+      ],
+      "passes": false
+    },
+    {
+      "id": 7,
+      "title": "优化器和调度器",
+      "description": "集成优化器和学习率调度器",
+      "steps": [
+        "创建 src/training/optimizer.py",
+        "支持常用优化器（Adam, AdamW, SGD）",
+        "支持学习率调度器（StepLR, CosineAnnealingLR, OneCycleLR）",
+        "支持 warmup",
+        "从配置文件创建优化器和调度器",
+        "添加优化器状态保存/恢复"
+      ],
+      "passes": false
+    },
+    {
+      "id": 8,
+      "title": "损失函数和指标",
+      "description": "实现损失函数和评估指标",
+      "steps": [
+        "创建 src/training/losses.py",
+        "支持常用损失函数（CrossEntropy, MSELoss 等）",
+        "创建 src/evaluation/metrics.py",
+        "实现准确率、精确率、召回率、F1 等指标",
+        "支持自定义损失函数",
+        "添加指标计算和聚合逻辑"
+      ],
+      "passes": false
+    },
+    {
+      "id": 9,
+      "title": "检查点管理",
+      "description": "实现模型检查点保存和恢复",
+      "steps": [
+        "创建 src/utils/checkpoint.py",
+        "定期保存模型检查点",
+        "保存最佳模型（基于验证指标）",
+        "保存训练状态（optimizer, scheduler, epoch）",
+        "支持从检查点恢复训练",
+        "自动清理旧检查点"
+      ],
+      "passes": false
+    },
+    {
+      "id": 10,
+      "title": "早停和学习率监控",
+      "description": "实现训练监控和早停机制",
+      "steps": [
+        "创建 src/training/callbacks.py",
+        "实现早停（EarlyStopping）回调",
+        "实现学习率监控回调",
+        "实现模型保存回调",
+        "支持自定义回调",
+        "添加回调执行顺序管理"
+      ],
+      "passes": false
+    },
+    {
+      "id": 11,
+      "title": "命令行接口",
+      "description": "创建训练命令行工具",
+      "steps": [
+        "创建 src/train.py 主训练脚本",
+        "使用 typer 或 argparse 解析命令行参数",
+        "支持指定配置文件",
+        "支持覆盖配置参数",
+        "添加 --help 文档",
+        "支持多 GPU 训练参数（如 device, num_workers）"
+      ],
+      "passes": false
+    },
+    {
+      "id": 12,
+      "title": "单元测试框架",
+      "description": "建立单元测试基础设施",
+      "steps": [
+        "创建 tests/ 目录结构",
+        "配置 pytest",
+        "创建 tests/conftest.py 配置测试 fixture",
+        "为每个模块编写基础测试",
+        "添加测试覆盖率配置",
+        "创建测试运行脚本"
+      ],
+      "passes": false
+    },
+    {
+      "id": 13,
+      "title": "数据增强模块",
+      "description": "扩展数据增强功能",
+      "steps": [
+        "创建 src/data/augmentations.py",
+        "支持常用图像增强（如果涉及图像）",
+        "支持文本增强（如果涉及文本）",
+        "可配置的增强策略",
+        "增强效果可视化工具",
+        "添加增强 A/B 测试"
+      ],
+      "passes": false
+    },
+    {
+      "id": 14,
+      "title": "模型评估和推理",
+      "description": "实现模型评估和推理脚本",
+      "steps": [
+        "创建 src/evaluation/evaluator.py",
+        "创建 src/evaluate.py 评估脚本",
+        "支持批量推理",
+        "生成评估报告",
+        "支持可视化预测结果",
+        "导出模型为 ONNX 或 TorchScript"
+      ],
+      "passes": false
+    },
+    {
+      "id": 15,
+      "title": "实验跟踪",
+      "description": "集成实验跟踪工具",
+      "steps": [
+        "创建 src/utils/experiment.py",
+        "支持 TensorBoard 日志",
+        "支持 WandB 集成（可选）",
+        "记录超参数、指标、图表",
+        "支持实验对比",
+        "添加实验结果可视化"
+      ],
+      "passes": false
+    },
+    {
+      "id": 16,
+      "title": "分布式训练支持",
+      "description": "添加多 GPU 和分布式训练支持",
+      "steps": [
+        "创建 src/training/distributed.py",
+        "支持 DataParallel",
+        "支持 DistributedDataParallel (DDP)",
+        "处理分布式采样",
+        "同步训练状态",
+        "添加分布式训练文档"
+      ],
+      "passes": false
+    },
+    {
+      "id": 17,
+      "title": "超参数调优工具",
+      "description": "实现超参数搜索功能",
+      "steps": [
+        "创建 src/tuning/search.py",
+        "支持网格搜索",
+        "支持随机搜索",
+        "集成 Optuna（可选）",
+        "记录超参数实验结果",
+        "可视化超参数重要性"
+      ],
+      "passes": false
+    },
+    {
+      "id": 18,
+      "title": "模型部署准备",
+      "description": "准备模型部署相关功能",
+      "steps": [
+        "创建 src/deploy/ 目录",
+        "实现模型量化",
+        "实现模型剪枝（可选）",
+        "创建模型服务 API 示例（FastAPI）",
+        "添加 Docker 配置",
+        "编写部署文档"
+      ],
+      "passes": false
+    },
+    {
+      "id": 19,
+      "title": "文档和示例",
+      "description": "完善项目文档和示例",
+      "steps": [
+        "创建 README.md 说明项目",
+        "创建 docs/ 目录",
+        "编写 API 文档",
+        "创建使用示例",
+        "添加训练示例脚本",
+        "创建常见问题 FAQ"
+      ],
+      "passes": false
+    },
+    {
+      "id": 20,
+      "title": "完整流程测试",
+      "description": "端到端测试整个训练流程",
+      "steps": [
+        "准备示例数据集",
+        "创建端到端测试配置",
+        "运行完整训练流程",
+        "验证模型保存和加载",
+        "验证评估脚本",
+        "检查所有测试通过",
+        "性能基准测试"
+      ],
+      "passes": false
+    }
+  ]
+}
