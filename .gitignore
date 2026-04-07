@@ -84,3 +84,8 @@ Thumbs.db
 .env
 .env.local
 *.secret
+
+# Exceptions (DO NOT ignore these files)
+!task.json
+!CLAUDE.md
+!progress.txt
