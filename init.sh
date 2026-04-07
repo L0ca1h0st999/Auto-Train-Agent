@@ -13,41 +13,54 @@ set -e
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
+BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${YELLOW}Initializing Auto-Train-Agent project...${NC}"
+# Project name (also conda environment name)
+PROJECT_NAME="Auto-Train-Agent"
 
-# Check Python version
-echo "Checking Python version..."
-PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
-PYTHON_MAJOR=$(echo $PYTHON_VERSION | cut -d. -f1)
-PYTHON_MINOR=$(echo $PYTHON_VERSION | cut -d. -f2)
+echo -e "${YELLOW}Initializing $PROJECT_NAME project...${NC}"
 
-if [ "$PYTHON_MAJOR" -lt 3 ] || ([ "$PYTHON_MAJOR" -eq 3 ] && [ "$PYTHON_MINOR" -lt 11 ]); then
-    echo -e "${RED}Error: Python 3.11+ is required, but found $PYTHON_VERSION${NC}"
+# Check if conda is available
+if ! command -v conda &> /dev/null; then
+    echo -e "${RED}Error: conda is not installed or not in PATH${NC}"
+    echo "Please install Anaconda or Miniconda first"
     exit 1
 fi
 
-echo -e "${GREEN}✓ Python $PYTHON_VERSION detected${NC}"
+echo -e "${BLUE}✓ Conda detected${NC}"
 
-# Create virtual environment if it doesn't exist
-if [ ! -d ".venv" ]; then
-    echo "Creating virtual environment..."
-    python3 -m venv .venv
-    echo -e "${GREEN}✓ Virtual environment created${NC}"
+# Check if conda environment exists
+ENV_EXISTS=$(conda env list | grep -c "^${PROJECT_NAME} " || true)
+
+if [ "$ENV_EXISTS" -eq 0 ]; then
+    echo -e "${YELLOW}Conda environment '$PROJECT_NAME' not found${NC}"
+    echo "Creating conda environment '$PROJECT_NAME' with Python 3.11..."
+
+    # Create conda environment
+    conda create -n "$PROJECT_NAME" python=3.11 -y
+
+    echo -e "${GREEN}✓ Conda environment '$PROJECT_NAME' created${NC}"
 else
-    echo -e "${GREEN}✓ Virtual environment exists${NC}"
+    echo -e "${GREEN}✓ Conda environment '$PROJECT_NAME' exists${NC}"
 fi
 
-# Activate virtual environment
-echo "Activating virtual environment..."
-source .venv/bin/activate
+# Activate conda environment
+echo "Activating conda environment..."
+eval "$(conda shell.bash hook)"
+conda activate "$PROJECT_NAME"
+
+echo -e "${GREEN}✓ Environment '$PROJECT_NAME' activated${NC}"
+
+# Check Python version
+PYTHON_VERSION=$(python --version 2>&1 | awk '{print $2}')
+echo -e "${BLUE}✓ Python $PYTHON_VERSION in use${NC}"
 
 # Install dependencies
 if [ -f "requirements.txt" ]; then
-    echo "Installing dependencies..."
+    echo "Installing dependencies from requirements.txt..."
     pip install --upgrade pip -q
-    pip install -r requirements.txt -q
+    pip install -r requirements.txt
     echo -e "${GREEN}✓ Dependencies installed${NC}"
 else
     echo -e "${YELLOW}Warning: requirements.txt not found${NC}"
@@ -56,7 +69,7 @@ fi
 # Install package in development mode
 if [ -f "pyproject.toml" ]; then
     echo "Installing package in development mode..."
-    pip install -e . -q
+    pip install -e .
     echo -e "${GREEN}✓ Package installed in development mode${NC}"
 fi
 
@@ -81,9 +94,12 @@ echo -e "${GREEN}✓ Initialization complete!${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
 echo "Environment summary:"
+echo "  - Conda env: $PROJECT_NAME"
 echo "  - Python: $PYTHON_VERSION"
-echo "  - Virtual env: .venv"
-echo "  - Source: source .venv/bin/activate"
+echo "  - Location: $(conda info --envs | grep $PROJECT_NAME | awk '{print $3}')"
+echo ""
+echo "To activate this environment in the future:"
+echo "  conda activate $PROJECT_NAME"
 echo ""
 echo "Next steps:"
 echo "  1. Read task.json to see available tasks"
