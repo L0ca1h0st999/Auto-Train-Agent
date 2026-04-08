@@ -1,6 +1,6 @@
 # Auto-Train-Agent
 
-全自动机器学习模型训练 Agent
+基于Cluade的全自动机器学习项目模型训练 Agent。
 
 ## 免责声明
 
@@ -254,10 +254,6 @@ python -m src.train --config <config_path>
 1. 根据你的需求修改 `task.json`
 2. 清空 `progress.txt`
 3. 让 AI 根据你的项目需求开始工作
-
-## 致谢
-
-本项目灵感来源于 Anthropic 的 [automated-dev-example](https://github.com/anthropics/anthropic-automated-dev-example) 项目。
 
 ## 许可证
 
