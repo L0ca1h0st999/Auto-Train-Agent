@@ -19,7 +19,7 @@ Every new agent session MUST follow this workflow:
 ```
 
 This will:
-- Create Python virtual environment
+- Create/activate conda environment (Auto-Train-Agent)
 - Install all dependencies
 - Set up project structure
 - Validate environment configuration
@@ -191,13 +191,13 @@ git commit -m "[task description] - completed"
 
 ```bash
 # Environment setup
-source .venv/bin/activate  # Activate virtual environment
+conda activate Auto-Train-Agent  # Activate conda environment
 
 # Code quality
-ruff check .               # Run linter
-ruff format .              # Format code
-pytest                     # Run tests
-mypy src/                  # Type checking
+ruff check .                       # Run linter
+ruff format .                      # Format code
+pytest                             # Run tests
+mypy src/                          # Type checking
 
 # Training
 python -m src.train --config <config_path>

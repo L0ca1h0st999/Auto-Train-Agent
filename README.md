@@ -69,7 +69,7 @@
 ```
 
 这会：
-- 创建 Python 虚拟环境
+- 创建/激活 conda 环境（Auto-Train-Agent）
 - 安装所有依赖
 - 创建项目目录结构
 - 验证环境配置
@@ -153,7 +153,7 @@ git commit -m "[task description] - completed"
 
 ### 前提条件
 
-- Python 3.11+
+- Conda (Anaconda 或 Miniconda)
 - claude-code CLI
 - GPU（推荐，但非必需）
 
@@ -183,13 +183,13 @@ claude -p --dangerously-skip-permissions
 
 ```bash
 # 环境设置
-source .venv/bin/activate  # 激活虚拟环境
+conda activate Auto-Train-Agent  # 激活 conda 环境
 
 # 代码质量
-ruff check .               # 运行 linter
-ruff format .              # 格式化代码
-pytest                     # 运行测试
-mypy src/                  # 类型检查
+ruff check .                    # 运行 linter
+ruff format .                   # 格式化代码
+pytest                          # 运行测试
+mypy src/                       # 类型检查
 
 # 训练
 python -m src.train --config <config_path>

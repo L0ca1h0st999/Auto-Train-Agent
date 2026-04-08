@@ -12,6 +12,22 @@
 
 set -e
 
+# Project name (also conda environment name)
+PROJECT_NAME="Auto-Train-Agent"
+
+# Activate conda environment
+if command -v conda &> /dev/null; then
+    eval "$(conda shell.bash hook)"
+    conda activate "$PROJECT_NAME" 2>/dev/null || {
+        echo "Warning: Conda environment '$PROJECT_NAME' not found. Please run ./init.sh first."
+        exit 1
+    }
+    echo "Activated conda environment: $PROJECT_NAME"
+else
+    echo "Warning: conda not found. Please install Anaconda or Miniconda."
+    exit 1
+fi
+
 # Colors for logging
 RED='\033[0;31m'
 GREEN='\033[0;32m'
